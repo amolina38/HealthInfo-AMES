@@ -1,0 +1,98 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: rgb(39, 63, 27);
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  font-weight: bold
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+ul {
+  list-style-type: none;
+  padding-top: 30px
+}
+
+ul li {
+  display: inline;
+}
+
+ul li {
+  margin: 40px;
+  font-weight: bold;
+  font-size: calc(10px + 1vmin);
+}
+
+ol li {
+  font-weight: bold;
+  font-size: calc(10px + 0.6vmin);
+  text-align: left;
+  color:  rgb(0, 0, 0);
+}
+
+ul li:hover {
+  cursor: pointer
+}
+
+.not-selected {
+  display: none;
+}
+
+.selected {
+  display: inline-block;
+}
+
+#desc {
+  margin-top: 50px;
+  font-size: calc(10px + 0.75vmin);
+  font-weight: bold;
+  color:  rgb(86, 163, 48);
+  max-width: 1000px;
+}
+
+#desc p {
+  color: black;
+}
+
+#goals {
+  margin-top: 50px
+}
+
+.li-selected {
+  text-decoration: underline;
+}
+
+.li-not-selected {
+  text-decoration: none;
+}
