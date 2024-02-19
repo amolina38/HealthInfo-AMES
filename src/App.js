@@ -80,6 +80,7 @@ function App() {
               <li>Accessibility: 100</li>
               <li>Best Practices: 100</li>
               <li>SEO: 100</li>
+              <li>PWA: All aspects validated</li>
             </ol>
           </div>
           <div id="video" className={(selectedTab === "video" ? 'selected' : 'not-selected')}>
