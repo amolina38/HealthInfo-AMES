@@ -1,10 +1,4 @@
 import './App.css';
-import TeamMember from './components/TeamMember/TeamMember';
-import austin from './media/austin.webp';
-import amber from './media/amber.webp';
-import chris from './media/chris.webp';
-import nasa from './media/nasa.webp';
-import video from './media/presentation.mp4';
 import { useState } from 'react';
 
 function App() {
@@ -54,12 +48,6 @@ function App() {
               customizable reports for each hospital and overall.
             </p>            
           </div>
-          <div className={(selectedTab === "team" ? 'selected' : 'not-selected')}>
-            <TeamMember imagePath={amber} name="Amber Molina" role="Team Lead" />
-            <TeamMember imagePath={austin} name="Austin Bieber" role="Tech Lead" />
-            <TeamMember imagePath={chris} name="Christin Lin" role="Frontend" />
-            <TeamMember imagePath={nasa} name="Nasa Quba" role="Backend" />
-          </div>
           <div id="goals" className={(selectedTab === "goals" ? 'selected' : 'not-selected')}>
             <p>Our goals for this semester are as follows:</p>
             <p></p>
@@ -82,24 +70,6 @@ function App() {
               <li>SEO: 100</li>
               <li>PWA: All aspects validated</li>
             </ol>
-          </div>
-          <div id="video" className={(selectedTab === "video" ? 'selected' : 'not-selected')}>
-            <div className="App">
-              <div id="video">
-                {/* <div style={{ padding: '56.25% 0 0 0', position: 'relative' }}>
-                  <iframe
-                    src="https://player.vimeo.com/video/913052661?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', border:'0px', }}
-                    title="VA-Partners_MiniPresentation"
-                  ></iframe>
-                </div>
-                <script src="https://player.vimeo.com/api/player.js"></script> */}
-                <video width="750" height="500" controls >
-                      <source src={video} type="video/mp4"/>
-                </video>
-              </div>
-            </div>
           </div>
         </div>
       </div>
