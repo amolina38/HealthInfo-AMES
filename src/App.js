@@ -28,7 +28,7 @@ function App() {
               The VA Partners team is dedicated to improving the partners application for the Vision
               Aid organization. This application is currently being used in production by the Vision
               Aid organization and its partners in hospitals around India.
-            </p>           
+            </p>
           </div>
           <div id="goals" className={(selectedTab === "goals" ? 'selected' : 'not-selected')}>
             <p>Our goals for this semester are as follows:</p>
@@ -36,7 +36,6 @@ function App() {
             <p></p>
             <ol>
               <li>Rewrite authentication system to be more seamless</li>
-              <li>Integrate authorization into the authentication system</li>
             </ol>
           </div>
 
