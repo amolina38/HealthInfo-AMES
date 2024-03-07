@@ -1,50 +1,74 @@
 import './App.css';
-import { useState } from 'react';
-import GoogleLogin from './googlelogin'; // Import GoogleLogin component
+import { useState, useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCoszVeeqcBdMTl_RKBLMjoIS9bWt5AHlg",
+  authDomain: "ames-med.firebaseapp.com",
+  projectId: "ames-med",
+  storageBucket: "ames-med.appspot.com",
+  messagingSenderId: "167208301541",
+  appId: "1:167208301541:web:b27e9d2831f198e85b350c",
+  measurementId: "G-46J7QJLGR1"
+};
+
+initializeApp(firebaseConfig); // Initialize Firebase
+
+const auth = getAuth(); // Get auth object after initializing Firebase
 
 function App() {
-  const [selectedTab, setSelectedTab] = useState("description");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+              console.log('User is signed in.');
+          } else {
+              console.log('No user is signed in.');
+          }
+      });
+
+      return () => unsubscribe(); // Unsubscribe when component unmounts
+  }, []);
+
+  const handleLogin = async () => {
+      try {
+          await signInWithEmailAndPassword(auth, email, password);
+          // Login successful, you can redirect or perform other actions here
+          console.log('Login successful');
+      } catch (error) {
+          setError(error.message);
+      }
+  };
+
+  const handleSignUp = async () => {
+      try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          // Account creation successful, you can redirect or perform other actions here
+          console.log('Account creation successful');
+      } catch (error) {
+          setError(error.message);
+      }
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        Vision-Aid Partners - Spring 2024
-      </header>
-      <div>
-        <ul>
-          <li 
-            onClick={() => setSelectedTab("description")}
-            className={(selectedTab === "description" ? 'li-selected' : 'li-not-selected')}
-          >Description</li>
-          <li
-            onClick={() => setSelectedTab("goals")}
-            className={(selectedTab === "goals" ? 'li-selected' : 'li-not-selected')}
-          >Goals</li>
-        </ul>
-
-        <div id="body">
-          <div id="desc" className={(selectedTab === "description" ? 'selected' : 'not-selected')}>
-            <p>
-              The VA Partners team is dedicated to improving the partners application for the Vision
-              Aid organization. This application is currently being used in production by the Vision
-              Aid organization and its partners in hospitals around India.
-            </p>
+      <div className="App">
+          <h1>Login</h1>
+          <div>
+              <label>Email:</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
-          <div id="goals" className={(selectedTab === "goals" ? 'selected' : 'not-selected')}>
-            <p>Our goals for this semester are as follows:</p>
-            <p></p>
-            <p></p>
-            <ol>
-              <li>Rewrite authentication system to be more seamless</li>
-            </ol>
+          <div>
+              <label>Password:</label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
-
-        </div>
+          <button onClick={handleLogin}>Login</button>
+          <button onClick={handleSignUp}>Sign Up</button>
+          {error && <div>{error}</div>}
       </div>
-
-      {/* Add GoogleLogin component */}
-      <GoogleLogin />
-    </div>
   );
 }
 
