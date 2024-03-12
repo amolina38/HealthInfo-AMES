@@ -1,80 +1,79 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCoszVeeqcBdMTl_RKBLMjoIS9bWt5AHlg",
+  authDomain: "ames-med.firebaseapp.com",
+  projectId: "ames-med",
+  storageBucket: "ames-med.appspot.com",
+  messagingSenderId: "167208301541",
+  appId: "1:167208301541:web:b27e9d2831f198e85b350c",
+  measurementId: "G-46J7QJLGR1"
+};
+
+initializeApp(firebaseConfig); // Initialize Firebase
+
+const auth = getAuth(); // Get auth object after initializing Firebase
 
 function App() {
-  const [selectedTab, setSelectedTab] = useState("description");
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        Vision-Aid Partners - Spring 2024
-      </header>
-      <div>
-        <ul>
-          <li 
-            onClick={() => setSelectedTab("description")}
-            className={(selectedTab === "description" ? 'li-selected' : 'li-not-selected')}
-          >Description</li>
-          <li
-            onClick={() => setSelectedTab("team")}
-            className={(selectedTab === "team" ? 'li-selected' : 'li-not-selected')}
-          >Team Members</li>
-          <li
-            onClick={() => setSelectedTab("goals")}
-            className={(selectedTab === "goals" ? 'li-selected' : 'li-not-selected')}
-          >Goals</li>
-          <li
-            onClick={() => setSelectedTab("lighthouse")}
-            className={(selectedTab === "lighthouse" ? 'li-selected' : 'li-not-selected')}
-          >Lighthouse Scores</li>
-          <li
-            onClick={() => {
-              setSelectedTab("video");
-            }}
-            className={(selectedTab === "video" ? 'li-selected' : 'li-not-selected')}
-          >Video</li>
-        </ul>
-
-        <div id="body">
-          <div id="desc" className={(selectedTab === "description" ? 'selected' : 'not-selected')}>
-            <p>
-              The VA Partners team is dedicated to improving the partners application for the Vision
-              Aid organization. This application is currently being used in production by the Vision
-              Aid organization and its partners in hospitals around India.
-            </p>
-            <p>
-              The application we will be improving is a web-based portal that helps coordinate all hospitals partnering with Vision Aid
-              for providing diagnosis, counseling, training and optical devises for the visually impaired. It also provides aggregate
-              customizable reports for each hospital and overall.
-            </p>            
-          </div>
-          <div id="goals" className={(selectedTab === "goals" ? 'selected' : 'not-selected')}>
-            <p>Our goals for this semester are as follows:</p>
-            <p></p>
-            <p></p>
-            <ol>
-              <li>Rewrite authentication system to be more seamless</li>
-              <li>Integrate authorization into the authentication system</li>
-              <li>Design a customizable landing page that doesn't require dev assistance</li>
-              <li>Upgrade the UI to meet accessibility standards</li>
-              <li>Implement a feedback form for users to report issues and bugs</li>
-              <li>Add a footer to all pages</li>
-              <li>Implement any new changes specified by stakeholders</li>
-            </ol>
-          </div>
-          <div id="lighthouse" className={(selectedTab === "lighthouse" ? 'selected' : 'not-selected')}>
-            <ol>
-              <li>Performance: 100</li>
-              <li>Accessibility: 100</li>
-              <li>Best Practices: 100</li>
-              <li>SEO: 100</li>
-              <li>PWA: All aspects validated</li>
-            </ol>
-          </div>
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const navigate = useNavigate(); // Access the navigation object
+  
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          console.log('User is signed in.');
+        } else {
+          console.log('No user is signed in.');
+        }
+      });
+  
+      return () => unsubscribe(); // Unsubscribe when component unmounts
+    }, []);
+  
+    const handleLogin = async () => {
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        console.log('Login successful');
+        // Redirect to the homepage upon successful login
+        navigate('/home');
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+  
+    const handleSignUp = async () => {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        console.log('Account creation successful');
+        // Redirect to the homepage upon successful sign-up
+        navigate('/home');
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+  
+    return (
+      <div className="App">
+        <h1>Login</h1>
+        <div>
+          <label>Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
+        <div>
+          <label>Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleSignUp}>Sign Up</button>
+        {error && <div>{error}</div>}
       </div>
-    </div>
-  );
-}
-
-export default App;
+    );
+  }
+  
+  export default App;
