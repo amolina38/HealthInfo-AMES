@@ -1,3 +1,10 @@
+Initial Setup:
+1. Using powershell `cd` to C:\...HealthInfo-AMESHealthInfo-AMES
+2. Run `npm install` before you can run scripts
+3. Run npm start and open localhost
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
