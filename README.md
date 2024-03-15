@@ -1,6 +1,6 @@
 Initial Setup:
 1. Using powershell `cd` to C:\...HealthInfo-AMES
-2. Run `npm install` before you can run scripts
+2. Run `npm install` before you can run scripts (only have to do this when project is first pulled)
 3. Run `npm start` and open localhost
 
 
