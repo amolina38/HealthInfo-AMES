@@ -22,32 +22,33 @@ function Home() {
   
     return (
         <div>
-            <h2>Dropdown Page</h2>
+            <h2>Medication History</h2>
             <div>
-                <label htmlFor="dropdown1">Dropdown 1:</label>
+                <label htmlFor="dropdown1">Medication:</label>
                 <select id="dropdown1">
                     <option value="">Select an option</option>
                     <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
                 </select>
             </div>
             <div>
-                <label htmlFor="dropdown2">Dropdown 2:</label>
+                <label htmlFor="dropdown1">Dosage:</label>
+                <select id="dropdown1">
+                    <option value="">Select an option</option>
+                    <option value="option1">Option 1</option>
+                </select>
+            </div>
+            <div>
+                <label htmlFor="dropdown2">Frequency:</label>
                 <select id="dropdown2">
                     <option value="">Select an option</option>
                     <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
                 </select>
             </div>
             <div>
-                <label htmlFor="dropdown3">Dropdown 3:</label>
+                <label htmlFor="dropdown3">Physician:</label>
                 <select id="dropdown3">
                     <option value="">Select an option</option>
                     <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
                 </select>
             </div>
             <button onClick={handleSignOut}>Sign Out</button> {/* Sign-out button */}

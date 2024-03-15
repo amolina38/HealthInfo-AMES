@@ -1,7 +1,8 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+  sendPasswordResetEmail, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const firebaseConfig = {
@@ -19,61 +20,90 @@ initializeApp(firebaseConfig); // Initialize Firebase
 const auth = getAuth(); // Get auth object after initializing Firebase
 
 function App() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const navigate = useNavigate(); // Access the navigation object
-  
-    useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          console.log('User is signed in.');
-        } else {
-          console.log('No user is signed in.');
-        }
-      });
-  
-      return () => unsubscribe(); // Unsubscribe when component unmounts
-    }, []);
-  
-    const handleLogin = async () => {
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        console.log('Login successful');
-        // Redirect to the homepage upon successful login
-        navigate('/home');
-      } catch (error) {
-        setError(error.message);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Access the navigation object
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    });
+
+    return () => unsubscribe(); // Unsubscribe when component unmounts
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // Redirect to the homepage upon successful login
+      navigate('/home');
+    } catch (error) {
+      switch (error.code) {
+        case "auth/missing-password":
+          setError("Invalid Password");
+          break;
+        case "auth/invalid-email":
+          setError("Invalid Email");
+          break;
+        default:
+          setError("Invalid Credentials");
       }
-    };
+    }
+  };
   
-    const handleSignUp = async () => {
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        console.log('Account creation successful');
-        // Redirect to the homepage upon successful sign-up
-        navigate('/home');
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-  
-    return (
-      <div className="App">
-        <h1>Login</h1>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
-        <button onClick={handleLogin}>Login</button>
-        <button onClick={handleSignUp}>Sign Up</button>
-        {error && <div>{error}</div>}
-      </div>
-    );
+const handleSignUp = async () => {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    // Redirect to the homepage upon successful sign-up
+    navigate('/home');
+  } catch (error) {
+    switch (error.code) {
+      case "auth/email-already-in-use":
+        setError("Account exists with email provided");
+        break;
+      case "auth/weak-password":
+        setError("Password must be at least 6 characters");
+        break;
+      case "auth/missing-password":
+        setError("Invalid Password");
+        break;
+      case "auth/invalid-email":
+        setError("Invalid Email");
+        break;
+      default:
+        setError("An error occurred");
+    }
   }
-  
-  export default App;
+};
+
+const handleForgotPassword = async () => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    // Show a message indicating that the reset email has been sent
+    setError("If an account with this email exists, a password reset email has been sent");
+  } catch (error) {
+    setError("Invalid email");
+  }
+};
+
+
+  return (
+    <div className="App">
+      <h1>AMES Medication Tracker</h1>
+      <div>
+        <label>Email:</label>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </div>
+      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleSignUp}>Sign Up</button>
+      <button onClick={handleForgotPassword}>Forgot Password</button>
+      {error && <div>{error}</div>}
+    </div>
+  );
+}
+
+export default App;
