@@ -1,3 +1,5 @@
+// home.js
+
 import React, { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -13,14 +15,24 @@ function Home() {
     const [blogEntries, setBlogEntries] = useState([]);
     const [error, setError] = useState(null);
 
+    const db = getFirestore(); // Get Firestore object after initializing Firebase
+
     useEffect(() => {
         fetchBlogEntries();
     }, []);
 
-    const db = getFirestore(); // Get Firestore object after initializing Firebase
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                fetchBlogEntries();
+            }
+        });
+        return unsubscribe;
+    }, []);
 
     const fetchBlogEntries = async () => {
         try {
+            if (!auth.currentUser) return; // Guard clause to handle null currentUser
             const q = query(collection(db, 'blogEntries'), where('userId', '==', auth.currentUser.uid));
             const querySnapshot = await getDocs(q);
             const entries = [];
@@ -31,34 +43,30 @@ function Home() {
         } catch (error) {
             setError(error.message);
         }
-    };    
+    };
 
     const handleCreateBlogPost = async () => {
-        console.log('Creating blog post...');
         try {
+            if (!auth.currentUser) return; // Guard clause to handle null currentUser
             // Your existing code to create a blog post
             await addDoc(collection(db, 'blogEntries'), {
                 title,
                 content,
                 userId: auth.currentUser.uid,
             });
-            console.log('Blog post created successfully');
             setTitle('');
             setContent('');
             fetchBlogEntries();
         } catch (error) {
-            console.error('Error creating blog post:', error);
             setError(error.message);
         }
     };
-    
 
     const handleSignOut = async () => {
         try {
             await signOut(auth);
             navigate('/');
         } catch (error) {
-            console.error('Error signing out:', error);
         }
     };
 
