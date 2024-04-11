@@ -1,4 +1,4 @@
-// app.js
+// App.js
 
 import './App.css';
 import { useState, useEffect } from 'react';
@@ -17,27 +17,27 @@ const firebaseConfig = {
   measurementId: "G-46J7QJLGR1"
 };
 
-initializeApp(firebaseConfig); // Initialize Firebase
+initializeApp(firebaseConfig);
 
-const auth = getAuth(); // Get auth object after initializing Firebase
+const auth = getAuth();
 
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Access the navigation object
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
     });
 
-    return () => unsubscribe(); // Unsubscribe when component unmounts
+    return () => unsubscribe();
   }, []);
 
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Redirect to the homepage upon successful login
+      // redirect to home after login (user page)
       navigate('/home');
     } catch (error) {
       switch (error.code) {
@@ -56,7 +56,7 @@ function App() {
 const handleSignUp = async () => {
   try {
     await createUserWithEmailAndPassword(auth, email, password);
-    // Redirect to the homepage upon successful sign-up
+      // redirect to home after login (user page)
     navigate('/home');
   } catch (error) {
     switch (error.code) {
@@ -81,7 +81,6 @@ const handleSignUp = async () => {
 const handleForgotPassword = async () => {
   try {
     await sendPasswordResetEmail(auth, email);
-    // Show a message indicating that the reset email has been sent
     setError("If an account with this email exists, a password reset email has been sent");
   } catch (error) {
     setError("Invalid email");
@@ -102,7 +101,9 @@ const handleForgotPassword = async () => {
       </div>
       <button onClick={handleLogin}>Login</button>
       <button onClick={handleSignUp}>Sign Up</button>
-      <button onClick={handleForgotPassword}>Forgot Password</button>
+      <div className="forgot-password">
+        <button onClick={handleForgotPassword}>Forgot Password</button>
+      </div>
       {error && <div>{error}</div>}
     </div>
   );
