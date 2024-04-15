@@ -4,8 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
-import { collection, addDoc, getDocs, query, where, getFirestore } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, getFirestore, deleteDoc, doc } from 'firebase/firestore';
 import medicationsData from './medications.json';
+import trashIcon from './trash.png'; // Import trash icon
 import './styles.css';
 
 const auth = getAuth();
@@ -96,7 +97,6 @@ function Home() {
         }
     };
     
-    // Function to generate FHIR Bundle from blog entries
     const generateFHIRBundle = () => {
         const bundle = {
             resourceType: 'Bundle',
@@ -121,6 +121,24 @@ function Home() {
         };
         return JSON.stringify(bundle, null, 2);
     };
+
+    const handleDeletePost = async (postId, entryUserId) => {
+        try {
+            if (auth.currentUser && auth.currentUser.uid === entryUserId) {
+                const confirmDelete = window.confirm('Are you sure you want to delete this entry?');
+                if (confirmDelete) {
+                    await deleteDoc(doc(db, 'blogEntries', postId));
+                    fetchBlogEntries(); // refresh blog entries after deletion
+                }
+            } else {
+                setError("You don't have permission to delete this entry.");
+            }
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+    
+    
 
     const handleSignOut = async () => {
         try {
@@ -165,13 +183,15 @@ function Home() {
             </form>
 
             {/* List of Posts */}
-            {/* <h3>Medication History</h3> */}
             <ul>
                 {blogEntries.map((entry) => (
                     <li key={entry.id} className="blog-entry">
                         <div className="medication-name">{entry.medicationName}</div>
                         <div className="date">{entry.date}</div>
                         <div className="notes">{entry.notes}</div>
+                        <button className="delete-btn" onClick={() => handleDeletePost(entry.id, entry.userId)}>
+                            <img src={trashIcon} alt="Delete" className="trash-icon" />
+                        </button>
                     </li>
                 ))}
             </ul>
@@ -187,7 +207,7 @@ function Home() {
                     a.download = 'medication_history.json';
                     a.click();
                     URL.revokeObjectURL(url);
-                }}>Download Medication History (FHIR Bundle)</button>
+                }}>Download Medication History</button>
             </div>
             {/* Sign-out button */}
             <button className="sign-out-btn" onClick={handleSignOut}>Sign Out</button>

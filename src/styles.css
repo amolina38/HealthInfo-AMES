@@ -64,11 +64,6 @@ select {
 
 button.submit-btn {
     padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
     cursor: pointer;
 }
 button.submit-btn:hover {
@@ -76,33 +71,36 @@ button.submit-btn:hover {
 }
 
 button.sign-out-btn {
+    padding: 10px 20px;
     position: absolute;
     top: 20px;
     right: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
 }
 button.sign-out-btn:hover {
     background-color: #0056b3;
 }
 
 button.download-btn{
+    padding: 10px 20px;
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
 }
 button.download-btn:hover {
     background-color: #0056b3;
 }
 
+button.delete-btn {
+    background-color: #fff;
+    margin: 0%;
+    padding: 0%;
+    position: absolute;
+    right: 40px;
+}
+.trash-icon {
+    height: 20px;
+  }
+  
 ul {
     list-style-type: none;
     padding: 0;
