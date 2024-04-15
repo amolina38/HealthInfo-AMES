@@ -96,6 +96,31 @@ function Home() {
         }
     };
     
+    // Function to generate FHIR Bundle from blog entries
+    const generateFHIRBundle = () => {
+        const bundle = {
+            resourceType: 'Bundle',
+            type: 'collection',
+            entry: blogEntries.map((entry) => ({
+                resource: {
+                    resourceType: 'MedicationRequest',
+                    id: entry.id,
+                    medicationCodeableConcept: {
+                        coding: [{
+                            system: 'https://ames-medication.vercel.app/',
+                            code: entry.medicationCode,
+                            display: entry.medicationName
+                        }]
+                    },
+                    authoredOn: entry.date,
+                    note: [{
+                        text: entry.notes
+                    }]
+                }
+            }))
+        };
+        return JSON.stringify(bundle, null, 2);
+    };
 
     const handleSignOut = async () => {
         try {
@@ -151,6 +176,19 @@ function Home() {
                 ))}
             </ul>
 
+            {/* Download FHIR Bundle Button */}
+            <div>
+                <button className="download-btn" onClick={() => {
+                    const bundle = generateFHIRBundle();
+                    const blob = new Blob([bundle], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'medication_history.json';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                }}>Download Medication History (FHIR Bundle)</button>
+            </div>
             {/* Sign-out button */}
             <button className="sign-out-btn" onClick={handleSignOut}>Sign Out</button>
         </div>
