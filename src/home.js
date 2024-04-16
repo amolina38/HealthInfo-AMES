@@ -14,7 +14,7 @@ const auth = getAuth();
 function Home() {
     const navigate = useNavigate();
     const [date, setDate] = useState('');
-    const [notes, setNotes] = useState('');
+    const [notes, setNotes] = useState(' ');
     const [selectedMedication, setSelectedMedication] = useState('');
     const [blogEntries, setBlogEntries] = useState([]);
     const [error, setError] = useState(null);
@@ -98,13 +98,20 @@ function Home() {
     };
     
     const generateFHIRBundle = () => {
+        const baseFhirUrl = 'https://ames-medication.vercel.app/';
         const bundle = {
             resourceType: 'Bundle',
             type: 'collection',
             entry: blogEntries.map((entry) => ({
+                fullUrl: `${baseFhirUrl}MedicationRequest/${entry.id}`,
                 resource: {
                     resourceType: 'MedicationRequest',
                     id: entry.id,
+                    status: 'active',
+                    intent: 'filler-order',
+                    subject: {
+                        reference: `Patient/${entry.patientId}`
+                    },
                     medicationCodeableConcept: {
                         coding: [{
                             system: 'https://ames-medication.vercel.app/',
