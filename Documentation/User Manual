@@ -2,15 +2,6 @@
 
 ## Technical and User Manual
 
-### Deployment
-To deploy the application, follow these steps:
-1. Clone the repository: `git clone https://github.com/amolina38/HealthInfo-AMES`
-2. Navigate to the project directory: `cd to C:...HealthInfo-AMES`
-3. Install dependencies: `npm install`
-4. Build the application: `npm run build`
-5. Start the server: `npm start`
-6. Access the application via the provided URL, most likely localhost:3000
-
 ### User Instructions
 To fully utilize the application and explore all features, follow these steps:
 1. Open the application in your web browser, either using localhost or the depolyed version of our site through Vercel; https://ames-medication.vercel.app/
