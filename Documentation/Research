@@ -2,3 +2,15 @@
 
 ## Research
 
+- Back-end Architecture & Design
+   Java Spring Boot, Node.js, HAPI FHIR, Databases (SQL, Postgres, Firestore)
+   Set up backend using Firebase and database using Firestore
+- Investigated hosting options for the final product
+   Looked into Vercel and decided to deploy through Vercel
+- Researched the Medication schema for FHIR: https://www.medplum.com/docs/api/fhir/resources/medication
+- Looked into correct medication codes to properly build JSON file with medication names and related codes
+   Used this site for medication codes: https://mor.nlm.nih.gov/RxNav/search?searchBy=String&searchTerm=Valsartan
+- How to export our data in FHIR format.
+   Created an export feature in our app that downloads a JSON file in FHIR format
+- How to validate exported JSON for correct FHIR format
+   Found this site for validation: https://validator.fhir.org/
