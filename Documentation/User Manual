@@ -4,7 +4,7 @@
 
 ### User Instructions
 To fully utilize the application and explore all features, follow these steps:
-1. Open the application in your web browser, either using localhost or the depolyed version of our site through Vercel; https://ames-medication.vercel.app/
+1. Open the application in your web browser, either using localhost (see Configuration file for details) or the depolyed version of our site through Vercel; https://ames-medication.vercel.app/
 2. Sign up for an account by entering a valid email and a password of at least 6 characters.
 3. Log in using your credentials.
 4. Explore the various functionalities provided:
