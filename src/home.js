@@ -105,6 +105,8 @@ function Home() {
                 resource: {
                     resourceType: 'MedicationRequest',
                     id: entry.id,
+                    status: 'active',
+                    intent: 'filler-order',
                     medicationCodeableConcept: {
                         coding: [{
                             system: 'https://ames-medication.vercel.app/',
