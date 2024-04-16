@@ -14,7 +14,7 @@ const auth = getAuth();
 function Home() {
     const navigate = useNavigate();
     const [date, setDate] = useState('');
-    const [notes, setNotes] = useState('');
+    const [notes, setNotes] = useState(' ');
     const [selectedMedication, setSelectedMedication] = useState('');
     const [blogEntries, setBlogEntries] = useState([]);
     const [error, setError] = useState(null);
