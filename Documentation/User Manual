@@ -1,0 +1,21 @@
+# Documentation
+
+## User Manual
+
+### User Instructions
+To fully utilize the application and explore all features, follow these steps:
+1. Open the application in your web browser, either using localhost (see Configuration file for details) or the depolyed version of our site through Vercel; https://ames-medication.vercel.app/
+2. Sign up for an account by entering a valid email and a password of at least 6 characters.
+3. Log in using your credentials.
+4. Explore the various functionalities provided:
+   - Submit New Entry: Fill in the fields above the "Submit New Entry" button. "Select Medication" and "Date" are required, "Notes" is not. Click the "Submit New Entry" button to see your entry populate.
+   - Download Medication History: Click the "Download Medication History" button at the top left of the page to automatically download a JSON file of your existing medication history.
+   - Delete Entry: Click the red trash icon to the left of a medication entry. When prompted with the confirmation pop-up asking "Are you sure you want to delete this entry?", click "Ok."
+   - Sign Out: Click the "Sign Out button at the top right of the user page.
+
+### Special Instructions for Grading
+1. Navigate to the following URL: https://ames-medication.vercel.app/
+2. Follow "User Instructions" found on this page.
+5. If needed, use the following login credentials:
+   - Username: test@test.com
+   - Password: AMESfinaltest
